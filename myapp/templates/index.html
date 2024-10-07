@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-4 mb-4">{{ title }}</h1>
+            <p class="lead">Welcome to our task management system. Organize your projects and tasks efficiently.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure animi amet, quo deserunt id minus vitae illo. Sunt natus placeat quasi, ad magnam itaque, voluptate totam eos rem corrupti beatae?</p>
+            <a href="{% url 'create_task' %}" class="btn btn-primary mt-3">Create New Task</a>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'image.svg' %}" alt="Task Management Illustration" class="img-fluid">
+        </div>
+    </div>
+
+{% endblock content %}

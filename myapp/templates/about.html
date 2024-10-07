@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block content %}
+    <h1 class="mb-4">Acerca de TaskMaster</h1>
+    <div class="row">
+      <div class="col-md-8">
+        <p class="lead">TaskMaster es tu solución integral para la gestión de tareas y proyectos. Diseñada para aumentar tu productividad y mantener tus proyectos organizados.</p>
+        <h2 class="mt-4">Características Principales</h2>
+        <ul class="list-group list-group-flush mb-4">
+          <li class="list-group-item">Gestión de tareas y proyectos</li>
+          <li class="list-group-item">Seguimiento de progreso en tiempo real</li>
+          <li class="list-group-item">Colaboración en equipo</li>
+          <li class="list-group-item">Notificaciones y recordatorios</li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Contáctanos</h5>
+            <form>
+              <div class="mb-3">
+                <label for="contactEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="contactEmail" required>
+              </div>
+              <div class="mb-3">
+                <label for="contactMessage" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="contactMessage" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-12">
+        <h2>Preguntas Frecuentes</h2>
+        <div class="accordion" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                ¿Cómo puedo crear una nueva tarea?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Para crear una nueva tarea, simplemente haz clic en el botón "Nueva Tarea" en la página de Tareas o en la página de inicio. Llena los detalles requeridos y guarda la tarea.
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea possimus incidunt repellendus recusandae quod ad asperiores commodi voluptates iure. Beatae, tempore natus modi repudiandae reiciendis repellat quas illum, consectetur earum quaerat totam fugit voluptatibus quibusdam necessitatibus similique blanditiis ipsam placeat tenetur, ad pariatur veritatis? Consectetur reprehenderit nam totam similique eius, aut qui amet saepe doloremque dolores, dicta placeat adipisci blanditiis facere molestiae dignissimos laborum atque iste sint error beatae inventore illo modi quos. Dolorem natus quidem vel quibusdam accusamus est voluptas nemo in esse, corrupti odio, fugiat tempora architecto, consequuntur consequatur dicta? Velit quidem libero assumenda et odio minus architecto.</p>
+
+              </div>
+            </div>
+          </div>
+          
+          <!-- Añade más elementos de acordeón para otras preguntas frecuentes -->
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
+
+    

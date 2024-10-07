@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Tasks</h1>
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-md-6 mb-4">
+            <div class="card {% if task.done %}border-success{% else %}border-warning{% endif %}">
+                <div class="card-body">
+                    <h2 class="card-title h5">
+                        {% if task.done %}
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        {% else %}
+                            <i class="bi bi-clock text-warning"></i>
+                        {% endif %}
+                        {{ task.title }}
+                    </h2>
+                    <p class="card-text">{{ task.description }}</p>
+                    <p class="card-text"><small class="text-muted">Project: {{ task.project_id }}</small></p>
+                    <div class="d-flex justify-content-between">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                {% if task.done %}Undo{% else %}Complete{% endif %}
+                            </button>
+                        </form>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No tasks found. <a href="{% url 'create_task' %}">Create a new task</a>.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

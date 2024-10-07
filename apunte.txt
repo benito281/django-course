@@ -1,0 +1,166 @@
+
+*Arrancar django: python manage.py runserver <--- Arranca por defecto en el puerto 8000
+*Arrancar django en un puerto especifico: python manage.py runserver 3000
+
+*Subir cambios de django (admin, auth, sessions) a la BD de SQLITE
+python manage.py migrate
+    cambios para una aplicación especifica
+    python manage.py migrate myapp <--- Ejemplo
+
+
+*Verificar si hay cambios
+python manage.py makemigrations
+
+*include ayuda a atraer los bloques de urls que vienen de parte una aplicación
+include('carpeta.archivo'). Ejemplo: include('myapp.urls);
+
+models.py : guarda los modelos que se van a utilizar para trabajar con bases de datos ejemplo mysql, posgresql, mariadb , etc.
+    Se manda a traer una clase models.Model dentro de una clase X que ayuda al desarrollo de las clases que posteriormente seran las tablas de la BD
+        class Projects(models.Model): <---- Ejemplo 
+
+    Metodos que ayudan a la construcción de atributos de la tabla en la BD
+    models.CharField(max_length=x) = Es para textos pequeños
+    models.TextField() = Es para textos mas largos
+    models.ForeignKey(tabla) = establece la relación con una tabla especifica
+    models.ForeignKey(TABLA, on_delete=models.CASCADE) = Hace que si se elimina una tabla, se eliminaran todas las que estan relacionadas a la misma
+
+
+django shell
+    Consola o terminal de django que permite interactuar con el proyecto
+    comando : python manage.py shell
+
+    Para realizar consultas a la BD desde terminal es necesario importar el modelo realizado en models.py
+        from carpeta.models imports clases
+        ejemplo : from myapp.models import Projects, Task
+    Para guardar datos
+        Se guarda en una variable y se instancia la clase con la diferencia que se pasa el nombre del atributo a guardar dentro de la clase.
+            x = Clase(atributo = 'Cualquier cosa')
+        ejemplo :
+            p = Projects(name_project='App mobile')
+        Para guardar datos en la BD
+            x.save()
+        ejemplo : 
+            p.save()
+        Traer todos los datos de la tabla
+            Clase.objects.all()
+            ejemplo
+            Projects.objects.all()
+        Traer un dato en particular
+            Clase.objects.get(campo='coincidencia')
+            ejemplo
+            Projects.objects.get(id=2)
+        Añadir un elemento en una tabla :
+            x = clase.objects.get(algo)
+            x.nombre_de_la_tabla_set.all()
+            x.nombre_de_la_tabla_set.create(campo="valor")
+            Ejemplo 
+            p = Projects.objects.get(id=2) //Toma como referecia el id y cuando se crea un tarea automaticamente lo guarda con el id de referencia, algo asi como por defecto
+            p.task_set.all()
+            p.task_set.create(title="Crear panel administrativo")
+        Obtener un valor en particular
+            x.nombre_de_la_tabla_set.get(campo="valor")
+            p.task_set.get(id=1)
+        Buscar algo sin tener errores
+            Clase.objects.filter(nombre_de_columna__startswith="") <- Busca valores que comienzen con cierto caracter
+            Projects.objects.filter(name_project__startswith="B")
+            Tambien se puede definir de otra forma
+            p = Projects.objects
+            p.filter(name_project__startswith="Blog")
+
+        Cerrar shell
+            exit()
+
+Params : Los params permiten o ayudan a esperar peticiones realizadas
+    dentro de views.py se ejecutan las funciones para cada url, dentro de las mismas se puede configurar para recibir los params que llegan desde la url
+    def helloWorld(request, valor_que_llega): 
+        return HttpResponse("<h1>Home</h1>") 
+
+    def hello(request, username):
+        return HttpResponse("<h1>Hello %s</h1>" %username) <-- s es una forma pasar valores a un string
+    
+    urls.py
+        path('hello/<str:username>', Viewsproject.hello) <-- str indica que tipo de dato recibe como parametro. username no es mas que un ejemplo puede ir cualquier cosa.
+
+Params y Models
+
+Django Admin
+    Para acceder al panel administrativo de Django es necesario crear un superusuario
+    python manage.py createsuperuser
+
+    en el archivo admin.py se llamaran a los modelos que se quieran
+    
+Render
+    from django.shortcuts import render : permite utilizar archivos html para mostra contenido en django.
+
+    Debe crear archivos html dentro de la carpeta templates, no se debe llamar template porque arroja error
+
+    dentro de views.py se llama a los archivos html que se quieran renderizar o visualizar.
+
+Jinja Loops
+    Recorrido
+    Permite recorrer la lista que viene  de la base de datos
+    {% for task in tasks %}
+        <div>
+            <p>{{ task.title }}</p>
+            <p>{{ task.description }}</p>
+            <p>{{ task.id }}</p>
+        </div>
+    {% endfor %}
+
+    Condicionales
+        {% if task.done == 0 %}
+            <p>Tarea Pendiente</p>
+        {% else %}
+            <p>Tarea Realizada</p>
+        {% endif %}  
+
+        {% if task.done == False %} ⏱ {% else %} ✅ {% endif %}
+Template inerithance : Permite reutilizar código html en otros archivos html
+Se debe crear un archivo llamado base.html
+
+{% extends 'base.html' %} Permite extender el contenido del archivo base.html es decir
+se puede reutilizar o llamar parte del contenido de base.html
+
+Formularios 
+    Para recibir los datos de un formulario se lo hace apartir del parametro url del navergador
+    cuando se envia los datos a parece de la siguiente manera
+    ?titleTask=crear+login+blog&descriptionTask=Es+para+el+login
+    Django reconoce los valores a Obtener y se lo puede hacer de la siguiente manera con request.GET['Algo']
+    Ejemplo:
+        title = request.GET['titleTask']
+        description = request.GET['descriptionTask']
+        print({title, description})
+
+
+    csrf_token : Es un token que va en el formulario que evita que se repita el mismo
+    para ello genera un id unico para cada Formularios {% csrf_token %}
+
+
+URL names
+Los nombres de URL (URL names) se utilizan para referirse a rutas específicas de manera más fácil y mantenible. Esto es especialmente útil cuando necesitas generar URLs dinámicamente en tus plantillas o redirigir a ciertas vistas desde tu código.
+
+urls.py
+path('tasks/', Viewsproject.tasks, name="tasks")
+base.html
+ <a href="{% url 'projects' %}">Projects</a>
+
+ forms.py
+ """ from django import forms
+
+
+class CreateNewTask(forms.Form):
+    titleTask = forms.CharField(
+        label="Title task", 
+        max_length=200, widget=forms.TextInput(attrs={
+            'class' : 'form-control',
+            'placeholder': 'Enter task title'
+
+        }))
+    descriptionTask = forms.CharField(label="Description task", widget=forms.Textarea(attrs={
+        'class' : 'form-control',
+        'placeholder': 'Enter task descripction'
+
+    }))
+
+class CreateNewProject(forms.Form):
+    name_project = forms.CharField(label="Name project", max_length=200) """
