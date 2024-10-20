@@ -1,12 +1,56 @@
 {% extends 'layouts/base.html' %}
 
+  
+  
 {% block content %}
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Projects</h1>
-        <a href="{% url 'create_project' %}" class="btn btn-primary">Create New Project</a>
+        <h1>Proyecto</h1>
+        <!-- <a href="{% url 'create_project' %}" class="btn btn-primary">Create New Project</a> -->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Crear un nuevo Proyecto
+        </button>
+
+        <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Proyectos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="form_project">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Create Project</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
     </div>
     <div class="row">
-        {% for project in projects %}
+        <!-- {% for project in projects %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
                 <div class="card-body">
@@ -24,7 +68,7 @@
         <div class="col-12">
             <p class="text-center">No projects found. <a href="{% url 'create_project' %}">Create a new project</a>.</p>
         </div>
-        {% endfor %}
+        {% endfor %} -->
     </div>
 
 {% endblock content %}

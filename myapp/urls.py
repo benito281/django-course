@@ -1,14 +1,14 @@
 from django.urls import path
-from .views import Viewsproject 
+from .views import ProjectsViews, Home, About, getAllProjects
 
 
 #TODO: 02:49:00 Video
 
 urlpatterns = [
-    path('', Viewsproject.home, name="index"),
-    path('about/', Viewsproject.about, name="about"),
-    #path('hello/<str:username>', Viewsproject.hello), <-- Params
-    path('projects/', Viewsproject.projects, name="projects"),
+    path('', Home.as_view(), name="index"),
+    path('about/', About.as_view(), name="about"),
+    path('projects/', ProjectsViews.as_view(), name="projects"),
+    path('all_projects/', getAllProjects, name="all_projects"),
     path('tasks/', Viewsproject.tasks, name="tasks"),
     path('task/<str:titleTask>', Viewsproject.get_task, ),
     path('create_task/', Viewsproject.create_task, name="create_task"),
