@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-  
+{% load static %}  
   
 {% block content %}
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -35,13 +35,12 @@
                     </div>
                 {% endfor %}
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Create Project</button>
+                    <button type="submit" class="btn btn-primary">Crear Proyecto</button>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
@@ -72,3 +71,9 @@
     </div>
 
 {% endblock content %}
+
+
+{% block extra %}
+    <script src="{% static 'js/projects.js' %}"></script>
+{% endblock %}
+    

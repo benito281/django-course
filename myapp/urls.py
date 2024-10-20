@@ -1,8 +1,5 @@
 from django.urls import path
-from .views import ProjectsViews, Home, About, getAllProjects
-
-
-#TODO: 02:49:00 Video
+from .views import ProjectsViews, Home, About, getAllProjects, Viewsproject
 
 urlpatterns = [
     path('', Home.as_view(), name="index"),

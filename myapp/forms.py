@@ -21,19 +21,18 @@ class CreateNewTask(forms.Form):
 
 class CreateNewProject(forms.Form):
     name_project = forms.CharField(
-        label="Project Name",
+        label="Nombre del proyecto",
         max_length=200,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter project name'
+            'placeholder': 'Introduzca el nombre del proyecto'
         })
     )
     description = forms.CharField(
-        label="Project Description",
+        label="Descripción",
         widget=forms.Textarea(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter project description',
+            'placeholder': 'Descripción del proyecto',
             'rows': 3
-        }),
-        required=False
+        })
     )

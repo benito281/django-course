@@ -13,23 +13,31 @@ def getAllProjects(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, safe=False, status=500)
 
-
 class ProjectsViews(View):
-    form_class = CreateNewProject()
+    form_class = CreateNewProject
     template_name = 'projects/projects.html'
 
     def get(self, request):
         return render(request, self.template_name, {
-            'form': self.form_class
+            'form': self.form_class()
         })
 
     def post(self, request, *args, **kwargs):
         try:
             data = loads(request.body)
-            print(data)
-            return JsonResponse({'icon': 'success',
+            form = self.form_class(data)
+
+            if form.is_valid():
+                Projects.objects.create(name_project=data.get('name_project'), 
+                                        description=data.get('description'))
+                return JsonResponse({'icon': 'success',
                                 'title': 'Correcto',
                                 'text': 'Proyecto creado correctamente'}, 
+                                safe=False, status=201)
+            else:
+                return JsonResponse({'icon': 'warining',
+                                'title': 'Error',
+                                'text': 'Error al rellenar los campos'}, 
                                 safe=False, status=201)
         except Exception as e:
             print(e)
